@@ -1,18 +1,33 @@
 import React from "react";
 import styled from "styled-components";
-function Section() {
+import Fade from "react-reveal/Fade";
+
+function Section({
+  title,
+  description,
+  backgroundImage,
+  leftButtonText,
+  rightButtonText,
+  showDownArrow,
+}) {
   return (
-    <Wrap>
-      <ItemText>
-        <h1>Model S</h1>
-        <p>Order Online for Touchless Delivery</p>
-      </ItemText>
+    <Wrap bgImage={backgroundImage}>
+      <Fade bottom>
+        <ItemText>
+          <h1>{title}</h1>
+          <p>{description}</p>
+        </ItemText>
+      </Fade>
       <Buttons>
-        <ButtonGroup>
-          <LeftButton>Custom Order</LeftButton>
-          <RightButton>Existing Inventory</RightButton>
-        </ButtonGroup>
-        <DownArrow src="/images/down-arrow.svg"></DownArrow>
+        <Fade>
+          <ButtonGroup>
+            <LeftButton>{leftButtonText}</LeftButton>
+            {rightButtonText && <RightButton>{rightButtonText}</RightButton>}
+          </ButtonGroup>
+          <ArrowWrapper>
+            <DownArrow src="/images/down-arrow.svg"></DownArrow>
+          </ArrowWrapper>
+        </Fade>
       </Buttons>
     </Wrap>
   );
@@ -31,6 +46,9 @@ const Wrap = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  background-image: ${(props) => `url("/images/${props.bgImage}")`};
+  scroll-snap-align: start;
+  z-index: 10;
 `;
 const ItemText = styled.div`
   padding-top: 15vh;
@@ -73,11 +91,19 @@ const DownArrow = styled.img`
   margin-top: 20px;
   margin-bottom: 20px;
   height: 40px;
-  overflow-x: hidden;
   animation: bounce infinite 1.5s;
+  display: flex;
+
+  justify-content: center;
 `;
 
 const Buttons = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+`;
+
+const ArrowWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `;
